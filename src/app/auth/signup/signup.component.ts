@@ -1,6 +1,5 @@
 import { Component } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { validateEmail } from '../../shared/validators/email.validator'
 
 @Component({
   selector: 'app-signup',
@@ -11,8 +10,7 @@ export class SignupComponent {
   public signupForm = this.fb.group({
     'email': ['', [
       Validators.required,
-      validateEmail,
-      Validators.minLength(5)
+      Validators.email
     ]],
     'password': ['', [
       Validators.required,
