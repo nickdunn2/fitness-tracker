@@ -9,14 +9,13 @@ import { validateEmail } from '../../shared/validators/email.validator'
 })
 export class LoginComponent {
   public loginForm = this.fb.group({
-      'email': ['', [
-          Validators.required,
-          Validators.minLength(5),
-          validateEmail
-        ]
-      ],
-      'password': ['', [ Validators.required ]]
-    })
+    'email': ['', [
+      Validators.required,
+      Validators.minLength(5),
+      validateEmail
+    ]],
+    'password': ['', [ Validators.required ]]
+  })
 
   public get email() { return this.loginForm.get('email') }
   public get password() { return this.loginForm.get('password') }
