@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
+import { AuthService } from '../auth.service'
 
 @Component({
   selector: 'app-signup',
@@ -25,12 +26,15 @@ export class SignupComponent {
   public get birthdate() { return this.signupForm.get('birthdate') }
   public maxDate: Date
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private auth: AuthService) {
     this.maxDate = new Date()
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18)
   }
 
   submitForm() {
-    console.log('signupForm --', this.signupForm)
+    this.auth.register({
+      email: this.email.value,
+      password: this.password.value
+    })
   }
 }
