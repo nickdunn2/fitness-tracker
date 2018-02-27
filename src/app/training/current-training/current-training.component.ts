@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core'
-import Timer = NodeJS.Timer
 import { MatDialog } from '@angular/material'
 import { StopTrainingComponent } from '../stop-training/stop-training.component'
 
@@ -10,7 +9,7 @@ import { StopTrainingComponent } from '../stop-training/stop-training.component'
 })
 export class CurrentTrainingComponent implements OnInit {
   public progress = 0
-  private timer: Timer
+  private timer: any
   @Output() trainingExited = new EventEmitter()
 
   constructor(private dialog: MatDialog) { }
