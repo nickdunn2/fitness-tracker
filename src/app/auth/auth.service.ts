@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   public logout() {
-    this.user = null
+    this.user = undefined
     this.authChange.next(false)
     this.router.navigate(['/login'])
   }
@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   public isAuthenticated() {
-    return this.user != null
+    return this.user !== undefined
   }
 
   private handleAuthSuccess() {

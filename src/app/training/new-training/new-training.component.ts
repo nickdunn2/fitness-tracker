@@ -1,4 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
+import { TrainingService } from '../training.service'
+import { Exercise } from '../exercise.model'
+import { FormBuilder, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-new-training',
@@ -6,16 +9,19 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core'
   styleUrls: ['./new-training.component.css']
 })
 export class NewTrainingComponent implements OnInit {
-  @Output() trainingStarted = new EventEmitter<void>()
+  @Input() exercises: Exercise[]
+  public exerciseForm = this.fb.group({
+    'exercise': ['', [ Validators.required ]]
+  })
+  public get exercise() { return this.exerciseForm.get('exercise') }
 
-
-  constructor() { }
+  constructor(private trainingService: TrainingService, private fb: FormBuilder) { }
 
   ngOnInit() {
   }
 
   startTraining() {
-    this.trainingStarted.emit()
+    this.trainingService.startExercise(this.exercise.value)
   }
 
 }
