@@ -25,6 +25,10 @@ export class TrainingService {
     this._currentExercise = val
   }
 
+  public get completedExercises() {
+    return this._completedExercises.slice()
+  }
+
   public startExercise(selectedId: string) {
     this.currentExercise = this.availableExercises.find(ex => ex.id === selectedId)
     this.exerciseChanged.next({ ...this.currentExercise })
@@ -44,7 +48,7 @@ export class TrainingService {
     this._completedExercises.push({
       ...this.currentExercise,
       duration: this.currentExercise.duration * (progress / 100),
-      caloriesBurned: this.currentExercise.duration * (progress / 100),
+      caloriesBurned: this.currentExercise.caloriesBurned * (progress / 100),
       date: new Date(),
       state: 'cancelled'
     })
