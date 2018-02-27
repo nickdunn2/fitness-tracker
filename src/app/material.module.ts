@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import {
   MatButtonModule, MatCardModule, MatCheckboxModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule,
-  MatIconModule, MatInputModule, MatListModule, MatNativeDateModule, MatProgressSpinnerModule,
+  MatIconModule, MatInputModule, MatListModule, MatNativeDateModule, MatPaginatorModule, MatProgressSpinnerModule,
   MatSelectModule, MatSidenavModule, MatSortModule, MatTableModule, MatTabsModule, MatToolbarModule
 } from '@angular/material'
 
@@ -17,6 +17,7 @@ import {
     MatInputModule,
     MatListModule,
     MatNativeDateModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSidenavModule,
@@ -36,6 +37,7 @@ import {
     MatInputModule,
     MatListModule,
     MatNativeDateModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSidenavModule,
