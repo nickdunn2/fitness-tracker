@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { TrainingService } from './training.service'
 import { Subscription } from 'rxjs/Subscription'
-import { AngularFirestore } from 'angularfire2/firestore'
-import { Observable } from 'rxjs/Observable'
 import { Exercise } from './exercise.model'
 
 @Component({
@@ -12,25 +10,18 @@ import { Exercise } from './exercise.model'
 })
 export class TrainingComponent implements OnInit, OnDestroy {
   public ongoingTraining = false
-  public exercises: Observable<Exercise[]>
+  public exercises: Exercise[]
   public exerciseSub: Subscription
+  private exercisesSub: Subscription
 
-  constructor(private trainingService: TrainingService, private db: AngularFirestore) { }
+  constructor(private trainingService: TrainingService) { }
 
   ngOnInit() {
-    this.exercises = this.db
-      .collection('availableExercises')
-      .snapshotChanges()
-      .map(resultsArray => {
-        return resultsArray.map(res => {
-          return {
-            id: res.payload.doc.id,
-            name: res.payload.doc.data().name,
-            duration: res.payload.doc.data().duration,
-            caloriesBurned: res.payload.doc.data().caloriesBurned
-          }
-        })
-      })
+    this.exercisesSub = this.trainingService.exercisesChanged.subscribe(exercises => {
+      this.exercises = exercises
+    })
+
+    this.trainingService.fetchAvailableExercises()
 
     this.exerciseSub = this.trainingService.exerciseChanged.subscribe(ex => {
       this.ongoingTraining = !!ex
@@ -39,5 +30,6 @@ export class TrainingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.trainingService.exerciseChanged.unsubscribe()
+    this.trainingService.exercisesChanged.unsubscribe()
   }
 }
