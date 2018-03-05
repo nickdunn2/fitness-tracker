@@ -23,8 +23,8 @@ export class TrainingService {
     this.db
       .collection('availableExercises')
       .snapshotChanges()
-      .map(resultsArray => {
-        return resultsArray.map(res => {
+      .map(results => {
+        return results.map(res => {
           return {
             id: res.payload.doc.id,
             name: res.payload.doc.data().name,
@@ -57,7 +57,7 @@ export class TrainingService {
   }
 
   public completeExercise() {
-    this._completedExercises.push({
+    this.addDataToDatabase({
       ...this.currentExercise,
       date: new Date(),
       state: 'completed'
@@ -67,7 +67,7 @@ export class TrainingService {
   }
 
   public cancelExercise(progress: number) {
-    this._completedExercises.push({
+    this.addDataToDatabase({
       ...this.currentExercise,
       duration: this.currentExercise.duration * (progress / 100),
       caloriesBurned: this.currentExercise.caloriesBurned * (progress / 100),
@@ -76,5 +76,9 @@ export class TrainingService {
     })
     this.currentExercise = undefined
     this.exerciseChanged.next(undefined)
+  }
+
+  private addDataToDatabase(exercise: Exercise) {
+    this.db.collection('completedExercises').add(exercise)
   }
 }
