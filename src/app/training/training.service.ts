@@ -7,16 +7,15 @@ import { AngularFirestore } from 'angularfire2/firestore'
 export class TrainingService {
   public exerciseChanged = new Subject<Exercise>()
   public exercisesChanged = new Subject<Exercise[]>()
+  public completedExercisesChanged = new Subject<Exercise[]>()
   private _availableExercises: Exercise[] = []
-  private _completedExercises: Exercise[] = []
   private _currentExercise: Exercise
 
   constructor(private db: AngularFirestore) {}
 
   // TODO: Fix this
   public get availableExercises() {
-    // return this._availableExercises.slice()
-    return []
+    return this._availableExercises.slice()
   }
 
   public fetchAvailableExercises() {
@@ -47,8 +46,17 @@ export class TrainingService {
     this._currentExercise = val
   }
 
-  public get completedExercises() {
-    return this._completedExercises.slice()
+  // public get completedExercises() {
+  //   return this._completedExercises.slice()
+  // }
+
+  public fetchCompletedExercises() {
+    this.db
+      .collection('completedExercises')
+      .valueChanges()
+      .subscribe((exercises: Exercise[]) => {
+        this.completedExercisesChanged.next(exercises)
+      })
   }
 
   public startExercise(selectedId: string) {
@@ -57,7 +65,7 @@ export class TrainingService {
   }
 
   public completeExercise() {
-    this.addDataToDatabase({
+    this.storeExercise({
       ...this.currentExercise,
       date: new Date(),
       state: 'completed'
@@ -67,7 +75,7 @@ export class TrainingService {
   }
 
   public cancelExercise(progress: number) {
-    this.addDataToDatabase({
+    this.storeExercise({
       ...this.currentExercise,
       duration: this.currentExercise.duration * (progress / 100),
       caloriesBurned: this.currentExercise.caloriesBurned * (progress / 100),
@@ -78,7 +86,7 @@ export class TrainingService {
     this.exerciseChanged.next(undefined)
   }
 
-  private addDataToDatabase(exercise: Exercise) {
+  private storeExercise(exercise: Exercise) {
     this.db.collection('completedExercises').add(exercise)
   }
 }
