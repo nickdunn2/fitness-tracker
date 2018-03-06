@@ -13,7 +13,6 @@ export class TrainingService {
 
   constructor(private db: AngularFirestore) {}
 
-  // TODO: Fix this
   public get availableExercises() {
     return this._availableExercises.slice()
   }
@@ -45,10 +44,6 @@ export class TrainingService {
   public set currentExercise(val: Exercise) {
     this._currentExercise = val
   }
-
-  // public get completedExercises() {
-  //   return this._completedExercises.slice()
-  // }
 
   public fetchCompletedExercises() {
     this.db
