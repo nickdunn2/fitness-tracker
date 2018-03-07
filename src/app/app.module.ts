@@ -5,6 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AngularFireModule } from 'angularfire2'
 import { AngularFirestoreModule } from 'angularfire2/firestore'
+import { AngularFireAuthModule } from 'angularfire2/auth'
 
 import { AppComponent } from './app.component'
 import { MaterialModule } from './material.module'
@@ -46,7 +47,8 @@ import { environment } from '../environments/environment'
     FlexLayoutModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [
     AuthService,
