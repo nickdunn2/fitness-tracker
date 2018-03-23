@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { AngularFireAuth } from 'angularfire2/auth'
 import { TrainingService } from '../training/training.service'
+import { MatSnackBar } from '@angular/material'
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
   private _isAuthenticated = false
 
   constructor(private router: Router, private afAuth: AngularFireAuth,
-              private trainingService: TrainingService) {}
+              private trainingService: TrainingService, private snackbar: MatSnackBar) {}
 
   public initAuthListener() {
     this.afAuth.authState.subscribe(user => {
@@ -34,7 +35,9 @@ export class AuthService {
       .then(result => {
         console.log('register result -', result)
       }).catch(err => {
-        console.error(err)
+        this.snackbar.open(err.message, undefined, {
+          duration: 3000
+        })
       })
   }
 
@@ -44,7 +47,9 @@ export class AuthService {
       .then(result => {
         console.log('login result -', result)
       }).catch(err => {
-        console.error(err)
+        this.snackbar.open(err.message, undefined, {
+          duration: 3000
+        })
       })
   }
 
