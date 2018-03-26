@@ -9,6 +9,7 @@
       <input matInput type="password" formControlName="password" placeholder="Password" (focus)="password.markAsUntouched()">
       <mat-error *ngIf="password.hasError('required')">Password required.</mat-error>
     </mat-form-field>
-    <button id="submit-button" type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Log In</button>
+    <button *ngIf="!isLoading" id="submit-button" type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Log In</button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

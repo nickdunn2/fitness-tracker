@@ -18,6 +18,7 @@
       <mat-error *ngIf="birthdate.hasError('required')">Birthdate required.</mat-error>
     </mat-form-field>
     <mat-checkbox formControlName="agree" color="primary">I have read the Terms & Conditions.</mat-checkbox>
-    <button id="submit-button" type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">Sign Up</button>
+    <button *ngIf="!isLoading" id="submit-button" type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">Sign Up</button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>
