@@ -27,6 +27,7 @@ export class TrainingService {
       .collection('availableExercises')
       .snapshotChanges()
       .map(results => {
+        // throw(new Error())
         return results.map(res => {
           return {
             id: res.payload.doc.id,
@@ -40,6 +41,14 @@ export class TrainingService {
         this._availableExercises = exercises
         this.exercisesChanged.next([ ...this._availableExercises ])
         this.uiService.loadingStateChanged.next(false)
+      }, err => {
+        this.uiService.loadingStateChanged.next(false)
+        this.uiService.showSnackbar(
+          'Oops! Exercises failed to load. Please try again later.',
+          undefined,
+          3000
+          )
+        this.exercisesChanged.next(undefined)
       }))
   }
 
