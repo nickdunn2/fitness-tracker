@@ -10,6 +10,7 @@ import { FormBuilder, Validators } from '@angular/forms'
 })
 export class NewTrainingComponent implements OnInit {
   @Input() exercises: Exercise[]
+  @Input() isLoading: boolean
   public exerciseForm = this.fb.group({
     'exercise': ['', [ Validators.required ]]
   })
