@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject'
 import { Injectable } from '@angular/core'
 import { AngularFirestore } from 'angularfire2/firestore'
 import { Subscription } from 'rxjs/Subscription'
+import { UIService } from '../shared/ui.service'
 
 @Injectable()
 export class TrainingService {
@@ -13,17 +14,20 @@ export class TrainingService {
   private _currentExercise: Exercise
   private fbSubs: Subscription[] = []
 
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private uiService: UIService) {}
 
   public get availableExercises() {
     return this._availableExercises.slice()
   }
 
   public fetchAvailableExercises() {
+    this.uiService.loadingStateChanged.next(true)
+
     this.fbSubs.push(this.db
       .collection('availableExercises')
       .snapshotChanges()
       .map(results => {
+        // throw(new Error())
         return results.map(res => {
           return {
             id: res.payload.doc.id,
@@ -36,6 +40,15 @@ export class TrainingService {
       .subscribe((exercises: Exercise[]) => {
         this._availableExercises = exercises
         this.exercisesChanged.next([ ...this._availableExercises ])
+        this.uiService.loadingStateChanged.next(false)
+      }, err => {
+        this.uiService.loadingStateChanged.next(false)
+        this.uiService.showSnackbar(
+          'Oops! Exercises failed to load. Please try again later.',
+          undefined,
+          3000
+          )
+        this.exercisesChanged.next(undefined)
       }))
   }
 

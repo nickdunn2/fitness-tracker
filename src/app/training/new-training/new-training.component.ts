@@ -9,7 +9,8 @@ import { FormBuilder, Validators } from '@angular/forms'
   styleUrls: ['./new-training.component.css']
 })
 export class NewTrainingComponent implements OnInit {
-  @Input() exercises: Exercise[]
+  @Input() exercises: Exercise[] | undefined
+  @Input() isLoading: boolean
   public exerciseForm = this.fb.group({
     'exercise': ['', [ Validators.required ]]
   })
@@ -20,8 +21,11 @@ export class NewTrainingComponent implements OnInit {
   ngOnInit() {
   }
 
-  startTraining() {
+  public startTraining() {
     this.trainingService.startExercise(this.exercise.value)
   }
 
+  public fetchExercises() {
+    this.trainingService.fetchAvailableExercises()
+  }
 }
